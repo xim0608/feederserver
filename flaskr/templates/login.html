@@ -1,12 +1,15 @@
-{# _feedersever/templates/login.html #}
-
 {% extends "layout.html" %}
-{% block title %}Login{% endblock %}
 {% block body %}
-    <form action="{{ url_for('login') }}" method="post">
-        <input type="text" name="email">
-        <input type="password" name="password">
-        {{ form.csrf_token }}
-    </form>
-
+    <div class="container">
+        <h2>Login</h2>
+        <form action="{{ url_for('login') }}" method=post>
+            <dl>
+                <dt>Email:
+                <dd><input type=text name=email>
+                <dt>Password:
+                <dd><input type=password name=password>
+                <dd><input type=submit value=Login>
+            </dl>
+        </form>
+    </div>
 {% endblock %}

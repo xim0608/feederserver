@@ -23,11 +23,11 @@
               <ul class="nav navbar-nav navbar-right">
                     {% if session.user_id %}
                     <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                    <li><a href="{{ url_for('show_feed') }}">Show Feeds</a></li>
+{#                    <li><a href="{{ url_for('show_feed') }}">Show Feeds</a></li>#}
                     <li><a href="{{ url_for('user_list') }}">Users</a></li>
                     {% else %}
                     <li><a href="{{ url_for('login') }}">Login</a></li>
-                    <li><a href="{{ url_for('show_feed') }}">Show Feeds</a></li>
+{#                    <li><a href="{{ url_for('show_feed') }}">Show Feeds</a></li>#}
                     {% endif %}
               </ul>
             </div><!-- /.navbar-collapse -->
