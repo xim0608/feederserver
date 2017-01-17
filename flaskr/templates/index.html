@@ -1,0 +1,27 @@
+{# _feedersever/templates/index.html #}
+
+{% extends "layout.html" %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
+{% endblock %}
+{% block title %}Cat feeder{% endblock %}
+<body>
+{% block body %}
+        {{ super() }}
+        <div class="container">
+ 	        <div class="row">
+                <div class="col-lg-12">
+                    <div class="content">
+                        <div class="blacks">
+                            <h1>Cat Feeder</h1>
+                            <h3>This app enables you to feed your pet when you are away from home!</h3>
+                            <hr>
+                            <button class="btn btn-default btn-lg"> Get Started!</button>
+                        </div>
+                    </div>
+                </div>
+ 	        </div>
+         </div>
+{% endblock %}
+</body>

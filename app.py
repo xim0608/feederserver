@@ -5,7 +5,7 @@ app.config.from_object('config')
 
 
 @app.route('/')
-def hello_world():
+def index():
     return render_template('index.html')
 
 
@@ -14,9 +14,7 @@ def how_to():
     return render_template('howto.html')
 
 
-@app.route('/test/<name>')
-def test(name):
-    return 'hello {}'.format(name)
+
 
 
 if __name__ == '__main__':

@@ -1,0 +1,8 @@
+.flash{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    border:1px solid #888888;
+    padding:2pt;
+    background-color: #ffffff;
+}
