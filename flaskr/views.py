@@ -6,6 +6,13 @@ from flaskr.models import User, Cataction, Waiting
 from datetime import datetime, timedelta
 
 
+# セッションの有効時間は５分
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=5)
+
+
 # ユーザーを表示（デバッグ用）
 @app.route('/users/')
 def user_list():
@@ -86,7 +93,7 @@ def show_action_user(user_id):
         response = jsonify({'status': 'Not Found'})
         response.status_code = 404
         return response
-    actions = Cataction.query.order_by(Cataction.actionid.desc()).all()
+    actions = Cataction.query.filter(Cataction.ownerid == user_id).order_by(Cataction.actionid.desc()).all()
     return render_template('action/timeline.html', actions=actions)
 
 
