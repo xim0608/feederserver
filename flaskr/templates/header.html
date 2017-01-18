@@ -17,8 +17,11 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                <li><a href="/howto">How to</a></li>
-                <li><a href="#">Feed</a></li>
+                    <li><a href="/howto">How to</a></li>
+                    <li><a href="/action">CatAction</a></li>
+                  {% if session %}
+                    <li><a href="/feed">Feed</a></li>
+                  {% endif %}
               </ul>
               <ul class="nav navbar-nav navbar-right">
                     {% if session.user_id %}

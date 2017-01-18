@@ -3,6 +3,7 @@
 from flask import request, redirect, url_for, render_template, flash, abort, jsonify, session
 from flaskr import app, db
 from flaskr.models import User, Cataction, Waiting
+from datetime import datetime, timedelta
 
 
 # ユーザーを表示（デバッグ用）
@@ -97,14 +98,14 @@ def add_action():
         return response
     owner_id = session['user_id']
     if request.method == "POST":
-        cataction = Cataction(ownerid=owner_id)
+        cataction = Cataction(ownerid=owner_id, actiontime=(datetime.utcnow()+timedelta(hours=9)).strftime('%Y/%m/%d %H:%M:%S'))
         db.session.add(cataction)
         db.session.commit()
-        return redirect(url_for(show_action))
+        return redirect(url_for('show_action'))
     return "You cannot add actions from this page...\nYou can only add from client app automatically."
 
 
-@app.route('/login', methods=["GET","POST"])
+@app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == 'POST':
         user, authenticated = User.authenticate(db.session.query, request.form['email'], request.form['password'])

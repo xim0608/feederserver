@@ -11,7 +11,7 @@
         {% endif %}
         {% for action in actions %}
             <tr>
-                <td><a href="{{ url_for('users/<action.ownerid>') }}">{{ action.ownerid }}</a></td>
+                <td><a href="{{ url_for('user_detail', user_id=action.ownerid) }}">{{ action.ownerid }}</a></td>
                 <td>{{ action.actiontime }}</td>
             </tr>
         {% else %}
