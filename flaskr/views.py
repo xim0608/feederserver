@@ -5,18 +5,21 @@ from flaskr import app, db
 from flaskr.models import User, Cataction, Waiting
 
 
+# ユーザーを表示（デバッグ用）
 @app.route('/users/')
 def user_list():
     users = User.query.all()
     return render_template('user/list.html', users=users)
 
 
+# ユーザーの情報を表示
 @app.route('/users/<int:user_id>/')
 def user_detail(user_id):
     user = User.query.get(user_id)
     return render_template('user/detail.html', user=user)
 
 
+# ユーザーの情報を変更
 @app.route('/users/<int:user_id>/edit/', methods=['GET', 'POST'])
 def user_edit(user_id):
     user = User.query.get(user_id)
@@ -33,6 +36,7 @@ def user_edit(user_id):
     return render_template('user/edit.html', user=user)
 
 
+# ユーザーを作成
 @app.route('/users/create/', methods=['GET', 'POST'])
 def user_create():
     if request.method == 'POST':
@@ -44,32 +48,45 @@ def user_create():
     return render_template('user/edit.html')
 
 
+# ユーザーを削除
 @app.route('/users/<int:user_id>/delete/', methods=['DELETE'])
 def user_delete(user_id):
     user = User.query.get(user_id)
     if user is None:
+        # アクセスしたユーザーidがデータベースに存在しなかった場合
         response = jsonify({'status': 'Not Found'})
         response.status_code = 404
         return response
     elif session['user_id'] != user_id:
+        # セッションがないor消そうとしているユーザーとアクセスしているユーザーが異なる場合
         response = jsonify({'status': 'You do not have permissions'})
         response.status_code = 403
         return response
     else:
+        # セッション認証＆ユーザー存在
         db.session.delete(user)
         db.session.commit()
         return jsonify({'status': 'OK'})
 
 
+# 全ユーザーのアクションを表示
+@app.route('/action/')
+def show_action():
+    actions = Cataction.query.order_by(Cataction.actionid.desc()).all()
+    return render_template('action/timeline.html', actions=actions)
+
+
+# ユーザーIDで指定されたユーザーのアクションを表示
 @app.route('/action/<int:user_id>/')
-def show_action(user_id):
+def show_action_user(user_id):
     user = User.query.get(user_id)
     if user is None:
+        # アクセスしたユーザーidがデータベースに存在しなかった場合
         response = jsonify({'status': 'Not Found'})
         response.status_code = 404
         return response
     actions = Cataction.query.order_by(Cataction.actionid.desc()).all()
-    return actions
+    return render_template('action/timeline.html', actions=actions)
 
 
 @app.route('/action/add/', methods=["GET", "POST"])

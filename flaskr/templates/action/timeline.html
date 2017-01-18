@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="panel panel-default">
+    <div class="panel-heading">CatActions</div>
+    <table class="table">
+        {% if actions %}
+            <tr>
+                <th>ID</th>
+                <th>ActionTime</th>
+            </tr>
+        {% endif %}
+        {% for action in actions %}
+            <tr>
+                <td><a href="{{ url_for('users/<action.ownerid>') }}">{{ action.ownerid }}</a></td>
+                <td>{{ action.actiontime }}</td>
+            </tr>
+        {% else %}
+            <p>There is no action here....</p>
+        {% endfor %}
+    </table>
+    </div>
+{% endblock %}

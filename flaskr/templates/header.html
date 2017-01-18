@@ -24,7 +24,7 @@
                     {% if session.user_id %}
                     <li><a href="{{ url_for('logout') }}">Logout</a></li>
 {#                    <li><a href="{{ url_for('show_feed') }}">Show Feeds</a></li>#}
-                    <li><a href="{{ url_for('user_list') }}">Users</a></li>
+{#                    <li><a href="{{ url_for('user_list') }}">Users</a></li>this is for debug#}
                     {% else %}
                     <li><a href="{{ url_for('login') }}">Login</a></li>
                     <li><a href="{{ url_for('user_create') }}">Sign Up</a></li>

@@ -1,11 +1,17 @@
 .flash{
     position: fixed;
+    margin: 10px 0 0 0;
     bottom: 10px;
     right: 10px;
     border:1px solid #888888;
     padding:2pt;
-    background-color: #ffffff;
+    color: white;
+    background-color: rgb(0,0,0);
 }
 .container{
     background-color: rgba(255,255,255,0.5);
+}
+
+.panel{
+    margin-top:20px;
 }
