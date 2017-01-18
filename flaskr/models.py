@@ -3,6 +3,7 @@
 from sqlalchemy.orm import synonym
 from werkzeug.security import check_password_hash, generate_password_hash
 from flaskr import db
+from datetime import datetime, timedelta
 
 
 class User(db.Model):
@@ -41,15 +42,22 @@ class User(db.Model):
         return '<User id={self.id} email={self.email!r}>'.format(self=self)
 
 
-class CatAction(db.Model):
-    __tablename__= 'actions'
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
-    time = db.Column(db.String, nullable=False)
+class Cataction(db.Model):
+    __tablename__ = 'catactions'
+    actionid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    ownerid = db.Column(db.Integer, nullable=False)
+    actiontime = db.Column(db.String(19), nullable=False)
 
+    # ビューで代入したほうがよさそう...
+    # def __init__(self, owner_id, action_time=None):
+    #     self.owner_id = owner_id
+    #     if action_time is None:
+    #         action_time = (datetime.utcnow()+timedelta(hours=9)).strftime('%Y/%m/%d %H:%M:%S')
+    #     self.action_time = action_time
 
 
 class Waiting(db.Model):
-    __tablename__= 'waitings'
+    __tablename__ = 'waitings'
     id = db.Column(db.Integer(), primary_key=True)
 
 

@@ -2,17 +2,20 @@
 
 from flask import request, redirect, url_for, render_template, flash, abort, jsonify, session
 from flaskr import app, db
-from flaskr.models import User
+from flaskr.models import User, Cataction, Waiting
+
 
 @app.route('/users/')
 def user_list():
     users = User.query.all()
     return render_template('user/list.html', users=users)
 
+
 @app.route('/users/<int:user_id>/')
 def user_detail(user_id):
     user = User.query.get(user_id)
     return render_template('user/detail.html', user=user)
+
 
 @app.route('/users/<int:user_id>/edit/', methods=['GET', 'POST'])
 def user_edit(user_id):
@@ -21,12 +24,14 @@ def user_edit(user_id):
         abort(404)
     if request.method == 'POST':
         user.name = request.form['name']
+        user.catname = request.form['catname']
         user.email = request.form['email']
         user.password = request.form['password']
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('user_detail', user_id=user_id))
     return render_template('user/edit.html', user=user)
+
 
 @app.route('/users/create/', methods=['GET', 'POST'])
 def user_create():
@@ -38,6 +43,7 @@ def user_create():
         return redirect(url_for('user_list'))
     return render_template('user/edit.html')
 
+
 @app.route('/users/<int:user_id>/delete/', methods=['DELETE'])
 def user_delete(user_id):
     user = User.query.get(user_id)
@@ -47,12 +53,39 @@ def user_delete(user_id):
         return response
     elif session['user_id'] != user_id:
         response = jsonify({'status': 'You do not have permissions'})
-        response.status_code = 404
+        response.status_code = 403
         return response
     else:
         db.session.delete(user)
         db.session.commit()
         return jsonify({'status': 'OK'})
+
+
+@app.route('/action/<int:user_id>/')
+def show_action(user_id):
+    user = User.query.get(user_id)
+    if user is None:
+        response = jsonify({'status': 'Not Found'})
+        response.status_code = 404
+        return response
+    actions = Cataction.query.order_by(Cataction.actionid.desc()).all()
+    return actions
+
+
+@app.route('/action/add/', methods=["GET", "POST"])
+def add_action():
+    if not session:
+        response = jsonify({'status': 'You do not have permissions'})
+        response.status_code = 403
+        return response
+    owner_id = session['user_id']
+    if request.method == "POST":
+        cataction = Cataction(ownerid=owner_id)
+        db.session.add(cataction)
+        db.session.commit()
+        return redirect(url_for(show_action))
+    return "You cannot add actions from this page...\nYou can only add from client app automatically."
+
 
 @app.route('/login', methods=["GET","POST"])
 def login():
@@ -66,40 +99,19 @@ def login():
             flash('Invalid email or password')
     return render_template('login.html')
 
+
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
     flash('You were logged out')
     return redirect(url_for('home'))
 
-# @app.route('/login', methods=["GET", "POST"])
-# def login():
-#     form = EmailPasswordForm()
-#     if form.validate_on_submit():
-#         #Check Password and login
-#         user = User(
-#             email=form.email.data,
-#             password=form.password.data
-#         )
-#         return redirect(url_for('index'))
-#     return render_template('login.html', form=form)
-#
-#
-# @app.route('/signin', methods=["GET", "POST"])
-# def signin():
-#     form = UsernamePasswordForm()
-#
-#     if form.validate_on_submit():
-#         user = User.query.filter_by(username=form.username.data).first_or_404()
-#         if user.is_collect_password(form.password.data):
-#             login_user(user)
-#
-#
-# @app.route('/signout')
-# def signout():
-#     logout_user()
-
 
 @app.route('/')
 def home():
     return render_template('index.html')
+
+
+@app.route('/howto')
+def howto():
+    return render_template('howto.html')

@@ -1,5 +1,5 @@
 body {
-    background-image: url(/flaskr/static/img/cat1.JPG);
+    background-image: url("../img/cat1.JPG");
     background-position: top right;
     background-repeat: no-repeat;
     background-size: cover;
