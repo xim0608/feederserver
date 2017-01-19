@@ -1,4 +1,4 @@
-from flaskr import app, db
+from feederflask import app, db
 from flask_script import Manager
 
 manager = Manager(app)

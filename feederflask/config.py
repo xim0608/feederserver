@@ -1,6 +1,6 @@
 DEBUG=True
 # BCRYPT_LEVEL=12
 # BCRYPT_LOG_ROUNDS=12
-SQLALCHEMY_DATABASE_URI = 'sqlite:///flaskr.db'
+SQLALCHEMY_DATABASE_URI = 'sqlite:///feederflask.db'
 SECRET_KEY = 'secret key'
 

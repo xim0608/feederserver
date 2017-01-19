@@ -1,9 +1,7 @@
-
-# from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import synonym
 from werkzeug.security import check_password_hash, generate_password_hash
-from flaskr import db
-from datetime import datetime, timedelta
+from feederflask import db
+
 
 
 class User(db.Model):
@@ -48,6 +46,9 @@ class Cataction(db.Model):
     ownerid = db.Column(db.Integer, nullable=False)
     actiontime = db.Column(db.String(19), nullable=False)
 
+
+    def __repr__(self):
+        return '<actionid={self.actionid} owner={self.ownerid} actiontime={self.actiontime!r}>'.format(self=self)
     # ビューで代入したほうがよさそう...
     # def __init__(self, owner_id, action_time=None):
     #     self.owner_id = owner_id
@@ -58,7 +59,10 @@ class Cataction(db.Model):
 
 class Waiting(db.Model):
     __tablename__ = 'waitings'
-    id = db.Column(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True, nullable=False)
+
+    def __repr__(self):
+        return '<id={self.id!r}>'.format(self=self)
 
 
 def init():

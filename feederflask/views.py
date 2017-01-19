@@ -1,8 +1,6 @@
-# flaskr/views.py
-
 from flask import request, redirect, url_for, render_template, flash, abort, jsonify, session
-from flaskr import app, db
-from flaskr.models import User, Cataction, Waiting
+from feederflask import app, db
+from feederflask.models import User, Cataction, Waiting
 from datetime import datetime, timedelta
 
 
@@ -99,7 +97,7 @@ def show_action_user(user_id):
 
 @app.route('/action/add/', methods=["GET", "POST"])
 def add_action():
-    if not session:
+    if 'user_id' not in session:
         response = jsonify({'status': 'You do not have permissions'})
         response.status_code = 403
         return response
@@ -110,6 +108,54 @@ def add_action():
         db.session.commit()
         return redirect(url_for('show_action'))
     return "You cannot add actions from this page...\nYou can only add from client app automatically."
+
+
+@app.route('/feed/')
+def feed():
+    if 'user_id' not in session:
+        response = jsonify({'status': 'You do not have permissions'})
+        response.status_code = 403
+        return response
+    user_id = session['user_id']
+    waited = Waiting.query.get(user_id)
+    if not waited:
+        waiting = Waiting(id=user_id)
+        db.session.add(waiting)
+        db.session.commit()
+    else:
+        return "すでにデータを送信済みです"
+    return render_template('feed.html')
+
+
+@app.route('/feed/delete/', methods=["DELETE"])
+def delete_feed():
+    if 'user_id' not in session:
+        response = jsonify({'status': 'You do not have permissions'})
+        response.status_code = 403
+        return response
+    user_id = session['user_id']
+    waiting = Waiting.query.get(user_id)
+    db.session.delete(waiting)
+    db.session.commit()
+    return "You cannot delete from this page"
+
+
+@app.route('/feed/check/')
+def check_feed():
+    if 'user_id' not in session:
+        response = jsonify({'status': 'FORBIDDEN'})
+        response.status_code = 403
+        return response
+    user_id = session['user_id']
+    waiting = Waiting.query.get(user_id)
+    if waiting:
+        response = jsonify({'status': 'FOUND'})
+        response.status_code = 302
+        return response
+    else:
+        response = jsonify({'status': 'NOT FOUND'})
+        response.status_code = 404
+        return response
 
 
 @app.route('/login', methods=["GET", "POST"])
