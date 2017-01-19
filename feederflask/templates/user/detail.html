@@ -1,19 +1,25 @@
 {% extends "layout.html" %}
-
+{% block head %}
+    {{ super() }}
+{% endblock head %}
+{% block title %}User Info{% endblock %}
 {% block body %}
 
 <h2>{{ user.name }}</h2>
 
 <div>
-    <div>{{ user.email }}</div>
-    <div>{{ user.catname }}</div>
+    {% if session['user_id'] == user.id %}
+    <div>E-mail : {{ user.email }}</div>
+    {% endif %}
+    <div>猫の名前 : {{ user.catname }}</div>
 </div>
 
 <div>
     <ul>
+        <li><a href="{{ url_for('show_action_user', user_id=user.id) }}">このユーザーの猫の行動状況を見る</a></li>
         {% if session['user_id'] == user.id %}
-        <li><a href="{{ url_for('user_edit', user_id=user.id) }}">edit</a></li>
-        <li><a class="user-delete-link" href="#" data-delete-url="{{ url_for('user_delete', user_id=user.id) }}">delete</a></li>
+        <li><a href="{{ url_for('user_edit', user_id=user.id) }}">アカウント情報を編集する</a></li>
+        <li><a class="user-delete-link" href="#" data-delete-url="{{ url_for('user_delete', user_id=user.id) }}">アカウントを削除する</a></li>
         {% endif %}
     </ul>
 </div>

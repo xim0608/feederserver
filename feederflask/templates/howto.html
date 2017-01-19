@@ -1,10 +1,18 @@
 {# _feedersever/templates/howto.html #}
 
 {% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+{% endblock head %}
 {% block title %}How to use Cat Feeder?{% endblock %}
 {% block body %}
     <div class="jumbotron">
             <h1>Cat Feeder</h1>
             <p>This app enables you to feed your pet when you are away from home!</p>
     </div>
+    <h2>使い方</h2>
+    <p>1.アカウントを登録します</p>
+    <p>2.なのぼーどをパソコンにつなぎ、FeederClient.pyを起動し、ログインします</p>
+    <p>3.上のFeedボタンを押すと、FeederClient.pyにつながっているなのぼーどのモーターが動きます</p>
+    <p>その他にもCatActionでは音センサーで猫が行動しているかどうかをチェックできます</p>
 {% endblock %}

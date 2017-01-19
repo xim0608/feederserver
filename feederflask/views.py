@@ -50,7 +50,8 @@ def user_create():
                     email=request.form['email'], password=request.form['password'])
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('user_list'))
+        session['user_id'] = user.id
+        return redirect(url_for('home'))
     return render_template('user/edit.html')
 
 
@@ -175,7 +176,7 @@ def login():
 def logout():
     session.pop('user_id', None)
     flash('You were logged out')
-    return redirect(url_for('home'))
+    return redirect(url_for('user_list'))
 
 
 @app.route('/')

@@ -19,19 +19,17 @@
               <ul class="nav navbar-nav">
                     <li><a href="/howto">How to</a></li>
                     <li><a href="/action">CatAction</a></li>
-                  {% if session %}
+                  {% if session['user_id'] %}
                     <li><a href="/feed">Feed</a></li>
                   {% endif %}
               </ul>
               <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ url_for('user_list') }}">Users</a></li>
                     {% if session.user_id %}
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
-{#                    <li><a href="{{ url_for('show_feed') }}">Show Feeds</a></li>#}
-{#                    <li><a href="{{ url_for('user_list') }}">Users</a></li>this is for debug#}
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
                     {% else %}
-                    <li><a href="{{ url_for('login') }}">Login</a></li>
-                    <li><a href="{{ url_for('user_create') }}">Sign Up</a></li>
-{#                    <li><a href="{{ url_for('show_feed') }}">Show Feeds</a></li>#}
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                        <li><a href="{{ url_for('user_create') }}">Sign Up</a></li>
                     {% endif %}
               </ul>
             </div><!-- /.navbar-collapse -->

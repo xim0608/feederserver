@@ -1,11 +1,15 @@
 {% extends "layout.html" %}
+{% block head %}
+    {{ super() }}
+{% endblock head %}
+{% block title %}Timeline{% endblock %}
 {% block body %}
     <div class="panel panel-default">
     <div class="panel-heading">CatActions</div>
     <table class="table">
         {% if actions %}
             <tr>
-                <th>ID</th>
+                <th>User ID</th>
                 <th>ActionTime</th>
             </tr>
         {% endif %}

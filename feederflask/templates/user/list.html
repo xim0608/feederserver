@@ -1,15 +1,20 @@
 {% extends "layout.html" %}
-
+{% block head %}
+    {{ super() }}
+{% endblock head %}
+{% block title %}User List{% endblock %}
 {% block body %}
 
     <h2>Users</h2>
 
-    <ul>
+    <div class="list-group">
         {% for user in users %}
-            <li><a href="{{ url_for('user_detail', user_id=user.id) }}">{{ user.name }}</a></li>
+            <a href="{{ url_for('user_detail', user_id=user.id) }}" class="list-group-item list-group-item-action">{{ user.name }}</a>
         {% else %}
-            <li><em>Unbelievable.  No users here so far</em></li>
+            <em>ユーザーが登録されていないようです...</em>
         {% endfor %}
-    </ul>
-    <a href="{{ url_for('user_create') }}">create user</a>
+    </div>
+    {% if not session['user_id'] %}
+        <a href="{{ url_for('user_create') }}">ユーザー登録する</a>
+    {% endif %}
 {% endblock body %}
