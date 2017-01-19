@@ -138,7 +138,7 @@ def delete_feed():
     waiting = Waiting.query.get(user_id)
     db.session.delete(waiting)
     db.session.commit()
-    return "You cannot delete from this page"
+    return "You cannot delete data from this page"
 
 
 @app.route('/feed/check/')
