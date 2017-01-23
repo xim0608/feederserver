@@ -6,6 +6,8 @@ from feederflask import app, db
 from feederflask.models import User, Cataction, Waiting
 from datetime import datetime, timedelta
 
+__author__ = 'Ryuki Wada'
+
 
 # セッションの有効時間は５分
 @app.before_request
