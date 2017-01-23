@@ -3,7 +3,6 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from feederflask import db
 
 
-
 class User(db.Model):
     __tablename__='users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -57,6 +56,7 @@ class Cataction(db.Model):
     #     self.action_time = action_time
 
 
+# It contains feed waiting list
 class Waiting(db.Model):
     __tablename__ = 'waitings'
     id = db.Column(db.Integer(), primary_key=True, nullable=False)

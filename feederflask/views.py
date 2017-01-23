@@ -96,6 +96,7 @@ def show_action_user(user_id):
     return render_template('action/timeline.html', actions=actions)
 
 
+# catactionsテーブルに追加
 @app.route('/action/add/', methods=["GET", "POST"])
 def add_action():
     if 'user_id' not in session:
@@ -111,6 +112,7 @@ def add_action():
     return "You cannot add actions from this page...\nYou can only add from client app automatically."
 
 
+# waitingsテーブルに追加
 @app.route('/feed/')
 def feed():
     if 'user_id' not in session:
@@ -128,6 +130,7 @@ def feed():
     return render_template('feed.html')
 
 
+# waitingsテーブルから削除
 @app.route('/feed/delete/', methods=["DELETE"])
 def delete_feed():
     if 'user_id' not in session:
@@ -141,6 +144,7 @@ def delete_feed():
     return "You cannot delete data from this page"
 
 
+# waitingsテーブルに自分のユーザーidがあるかチェック
 @app.route('/feed/check/')
 def check_feed():
     if 'user_id' not in session:
@@ -158,7 +162,7 @@ def check_feed():
         response.status_code = 404
         return response
 
-
+# ログイン
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == 'POST':
@@ -172,6 +176,7 @@ def login():
     return render_template('login.html')
 
 
+# ログアウト
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
