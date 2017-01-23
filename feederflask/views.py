@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from flask import request, redirect, url_for, render_template, flash, abort, jsonify, session
 from feederflask import app, db
 from feederflask.models import User, Cataction, Waiting
